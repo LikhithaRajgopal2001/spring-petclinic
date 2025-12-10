@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: likhitha/petclinic
+  repository: LikhithaRajgopal2001/spring-petclinic
   tag: "latest"
   pullPolicy: Always
 
