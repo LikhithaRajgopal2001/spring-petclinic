@@ -1,4 +1,14 @@
+replicaCount: 2
+
 image:
-  repo: robotshop
-  version: latest
-  pullPolicy: IfNotPresent
+  repository: likhitha/petclinic
+  tag: "latest"
+  pullPolicy: Always
+
+service:
+  type: LoadBalancer
+  port: 8080
+
+containerPort: 8080
+
+resources: {}
