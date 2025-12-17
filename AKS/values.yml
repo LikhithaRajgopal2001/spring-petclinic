@@ -18,6 +18,11 @@ db:
   labels:
     app: demo-db
 
+service:
+    name: demo-db
+    port: 5432
+    selector:
+      app: demo-db
 image:
   repository: postgres
   tag: "18.1"
