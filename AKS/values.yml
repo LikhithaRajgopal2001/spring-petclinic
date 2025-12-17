@@ -1,14 +1,37 @@
-replicaCount: 2
+app:
+  name: petclinic
+  replicaCount: 2
+  image:
+    repository: dsyer/petclinic
+    tag: "latest"
+    pullPolicy: Always
+  service:
+    type: LoadBalancer
+    port: 8080
 
-image:
-  repository: dsyer/petclinic
-  tag: "latest"
-  pullPolicy: Always
-
-service:
-  type: LoadBalancer
-  port: 8080
-
-containerPort: 8080
+  containerPort: 8080
 
 resources: {}
+
+db:
+  name: demo-db
+  labels:
+    app: demo-db
+
+image:
+  repository: postgres
+  tag: "18.1"
+
+container:
+  name: postgresql
+  port: 5432
+
+secret:
+  name: demo-db
+  keys:
+    username: username
+    password: password
+    database: database
+
+probes:
+  enabled: true
