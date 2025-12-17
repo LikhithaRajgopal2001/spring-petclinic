@@ -1,8 +1,13 @@
 app:
   ingress:
     enabled: true
-    className: azure-application-gateway
+    #className: azure-application-gateway
+    className: alb
     host: petclinic.example.com
     path: /
     pathType: Prefix
-    annotations: {}
+    annotations:
+      kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
