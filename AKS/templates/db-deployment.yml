@@ -4,45 +4,47 @@
   metadata:
     name: {{ .Values.db.name }}
     labels:
-      app: demo-db
+      app: {{ .Values.db.labels.app }}
   spec:
     selector:
       matchLabels:
-        app: demo-db
+        app: {{ .Values.db.labels.app }}
     template:
       metadata:
         labels:
-          app: demo-db
+          app: {{- toYaml .Values.db.labels | nindent 8 }}
       spec:
         containers:
-          - image: postgres:18.1
-            name: postgresql
+          - image: "{{ .Values.db.container.image.repository }}:{{ .Values.db.container.image.tag }}"
+            name: {{ .Values.db.container.name }}
             env:
               - name: POSTGRES_USER
                 valueFrom:
                   secretKeyRef:
-                    name: demo-db
-                    key: username
+                    name: {{ .Values.db.container.secret.name }}
+                    key: {{ .Values.db.container.secret.keys.username }}
               - name: POSTGRES_PASSWORD
                 valueFrom:
                   secretKeyRef:
-                    name: demo-db
-                    key: password
+                    name: {{ .Values.db.container.secret.name }}
+                    key: {{ .Values.db.container.secret.keys.password }}
               - name: POSTGRES_DB
                 valueFrom:
                   secretKeyRef:
-                    name: demo-db
-                    key: database
+                    name: {{ .Values.db.container.secret.name }}
+                    key: {{ .Values.db.container.secret.keys.database }}
             ports:
-              - containerPort: 5432
-                name: postgresql
+              - containerPort: {{ .Values.db.container.port.number }}
+                name: {{ .Values.db.container.port.name }}
+
+            {{- if .Values.db.container.probes.enabled }}
             livenessProbe:
               tcpSocket:
-                port: postgresql
+                port: {{ .Values.db.container.port.name }}
             readinessProbe:
               tcpSocket:
-                port: postgresql
+                port: {{ .Values.db.container.port.name }}
             startupProbe:
               tcpSocket:
-                port: postgresql
+                port: {{ .Values.db.container.port.name }}
 {{- end }}
