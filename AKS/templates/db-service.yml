@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: demo-db
+  name: {{ .Values.db.service.name }}
 spec:
   ports:
-    - port: 5432
+    - port: {{ .Values.db.service.port }}
   selector:
-    app: demo-db
+    app: {{ .Values.db.service.selector.app }}
