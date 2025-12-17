@@ -1,18 +1,8 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: {{ include "my-java-app.fullname" . }}
-  annotations:
-    kubernetes.io/ingress.class: nginx
-spec:
-  rules:
-    - host: demo.petclinic.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ include "my-java-app.fullname" . }}
-                port:
-                  number: {{ .Values.service.port }}
+app:
+  ingress:
+    enabled: true
+    className: azure-application-gateway
+    host: petclinic.example.com
+    path: /
+    pathType: Prefix
+    annotations: {}
